@@ -11,7 +11,7 @@ const NowPlayingMoviesPage = () => {
   const { addToWatchlist } = useContext(MoviesContext);
   
   const [currentPage, setCurrentPage] = useState(1); 
-  const moviesPerPage = 4;  
+  const moviesPerPage = 10;  
   
   if (isLoading) {
     return <Spinner />;  

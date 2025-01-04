@@ -8,7 +8,7 @@ import AddToFavoritesIcon from '../components/cardIcons/addToFavorites';
 const HomePage = (props) => {
   const { data, error, isLoading, isError } = useQuery('discover', getMovies);
   const [currentPage, setCurrentPage] = useState(1); 
-  const moviesPerPage = 4; 
+  const moviesPerPage = 10; 
 
   if (isLoading) {
     return <Spinner />;
@@ -18,14 +18,15 @@ const HomePage = (props) => {
     return <h1>{error.message}</h1>;
   }
 
-  const movies = data.results;
+  const movies = Array.isArray(data?.results) ? data.results : [];
+
 
   
   const indexOfLastMovie = currentPage * moviesPerPage;
   const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
-  const currentMovies = movies.slice(indexOfFirstMovie, indexOfLastMovie);
-
-  const totalPages = Math.ceil(movies.length / moviesPerPage);
+  const currentMovies = movies.slice(indexOfFirstMovie, indexOfLastMovie); 
+  const totalPages = Math.ceil(movies.length / moviesPerPage); 
+  
 
   
   const paginate = (pageNumber) => setCurrentPage(pageNumber);

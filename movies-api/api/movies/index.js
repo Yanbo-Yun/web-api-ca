@@ -79,6 +79,13 @@ router.get('/tmdb/discover/:genre', asyncHandler(async (req, res) => {
     res.status(200).json(movies);
 }));
 
+router.get('/:id/recommendations', asyncHandler(async (req, res) => {
+    const id = req.params.id;
+    const recommendations = await fetchRecommendationsFromTMDB(id); 
+    res.status(200).json(recommendations);
+}));
+
+
 
 
 export default router;

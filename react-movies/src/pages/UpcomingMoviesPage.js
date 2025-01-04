@@ -9,7 +9,7 @@ import { MoviesContext } from "../contexts/moviesContext";
 const UpcomingMoviesPage = () => {
   const { addToWatchlist } = useContext(MoviesContext);
   const [currentPage, setCurrentPage] = useState(1); 
-  const moviesPerPage = 4; 
+  const moviesPerPage = 10; 
 
   const { data, error, isLoading, isError } = useQuery("upcomingMovies", getUpcomingMovies);
 

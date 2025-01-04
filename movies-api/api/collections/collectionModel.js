@@ -1,9 +1,22 @@
-import mongoose from 'mongoose';
+const mongoose = require("mongoose");
 
 const collectionSchema = new mongoose.Schema({
-    userId: { type: String, required: true }, 
-    movieId: { type: String, required: true }, 
-    movieTitle: { type: String, required: true },
-}, { timestamps: true });
+  userId: {
+    type: String,
+    required: true, 
+  },
+  movieId: {
+    type: String,
+    required: true,
+  },
+  movieTitle: {
+    type: String,
+    required: true, 
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
 
-export default mongoose.model('Collection', collectionSchema);
+module.exports = mongoose.model("Collection", collectionSchema);

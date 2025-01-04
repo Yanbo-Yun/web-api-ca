@@ -1,10 +1,8 @@
 import movieModel from './movieModel';
 import asyncHandler from 'express-async-handler';
 import express from 'express';
-import {
-    getUpcomingMovies,
-    getGenresMovies
-  } from '../tmdb-api';
+import { getUpcomingMovies, getGenresMovies,getPopularMovies,discoverMoviesByGenre} from '../tmdb-api';
+
 
 const router = express.Router();
 
@@ -49,6 +47,36 @@ router.get('/tmdb/upcoming', asyncHandler(async (req, res) => {
 router.get('/tmdb/genres', asyncHandler(async (req, res) => {
     const genresMovies = await getGenresMovies();
     res.status(200).json(genresMovies);
+}));
+
+router.get('/tmdb/popular', asyncHandler(async (req, res) => {
+    const popularMovies = await getPopularMovies();
+    res.status(200).json(popularMovies);
+}));
+
+router.get('/genre/:genre', asyncHandler(async (req, res) => {
+    const genre = req.params.genre;
+    const movies = await movieModel.find({ genre: genre });
+    if (movies.length > 0) {
+        res.status(200).json(movies);
+    } else {
+        res.status(404).json({ message: `No movies found for genre: ${genre}` });
+    }
+}));
+
+router.get('/search', asyncHandler(async (req, res) => {
+    const { title } = req.query;
+    if (!title) {
+        return res.status(400).json({ message: 'Title query parameter is required.' });
+    }
+    const movies = await movieModel.find({ title: { $regex: title, $options: 'i' } });
+    res.status(200).json(movies);
+}));
+
+router.get('/tmdb/discover/:genre', asyncHandler(async (req, res) => {
+    const genre = req.params.genre;
+    const movies = await discoverMoviesByGenre(genre);
+    res.status(200).json(movies);
 }));
 
 

@@ -1,53 +1,82 @@
 # Assignment 2 - Web API.
 
-Name: Your Name
+Name: Yanbo Yun
 
 ## Features.
 
 A bullet-point list of the ADDITIONAL features you have implemented in the API **THAT WERE NOT IN THE LABS** (or modifications to existing features)
  
- + Feature 1 
- + Feature 2 
- + Feature 3 
- + etc
+ + New Endpoint: Fetch Popular Movies    
+ + New Endpoint: Fetch Movies by Genre
+ + Support for Searching Movies by Title
+ + Extended TMDB Integration: Fetch Movies by Genre
+   New MongoDB Collection: Reviews
+   New MongoDB Collection: User Collections
+ 
 
-## Setup requirements.
-
-[ Outline any non-standard setup steps necessary to run your app locally after cloning the repo.]
 
 ## API Configuration
-
-Describe any configuration that needs to take place before running the API. For example, creating an `.env` file and what variables to put in it. Give an example of how this might be done.
-
-REMEMBER: DON'T PUT YOUR OWN USERNAMES/PASSWORDS/AUTH KEYS IN THE README OR ON GITHUB, just placeholders as indicated below:
+1.Clone this repository to your local machine
+2.Install dependencies
+3.Make sure MongoDB service is running
+4.Create a .env file and configure the following variables
 
 ______________________
 NODEENV=development
 PORT=8080
-HOST=
-mongoDB=YourMongoURL
+HOST=localhost
+mongoDB=myMongoURL
 seedDb=true
-secret=YourJWTSecret
+secret=ilikecake
 ______________________
 
 ## API Design
-Give an overview of your web API design, perhaps similar to the following: 
-
+Here are my API Design:
 - /api/movies | GET | Gets a list of movies 
 - /api/movies/{movieid} | GET | Gets a single movie 
-- /api/movies/{movieid}/reviews | GET | Get all reviews for movie 
-- /api/movies/{movieid}/reviews | POST | Create a new review for Movie 
+- /api/movies/tmdb/popular | GET | Gets a list of popular movies
+- /api/movies/genre/:genre | GET | Fetch movies of a specific genre from MongoDB
 
-If you have your API design on an online platform or graphic, please link to it (e.g. [Swaggerhub](https://app.swaggerhub.com/)).
+New MongoDB Collection: Reviews:
+1./api/reviews/:id |GET| Fetch Reviews
+2./api/reviews/:id |POST| Add Review
+3./api/reviews/:reviewId |DELETE| Delete Review
+
+New MongoDB Collection: User Collections:
+1./api/users/collections |GET| Fetch Favorite Movies
+2./api/users/collections |POST| Add Movie to Favorites
 
 ## Security and Authentication
 
-Give details of authentication/security implemented on the API (e.g. passport/sessions). Indicate which routes are protected.
+This project implements the following security and authentication features:
+
+JWT Authentication
+JSON Web Tokens (JWT) are used to authenticate users.
+After logging in, users receive a JWT, which is required to access protected routes.
+
+Protected Routes
+The following routes are protected and require authentication:
+/api/movies/:id/reviews (POST, DELETE)
+/api/users/collections (all routes)
+
+Login and Register
+Login Endpoint: /api/users/login |POST|
+Signup Endpoint: /api/users/register |POST|
+
 
 ## Integrating with React App
 
-Describe how you integrated your React app with the API. List the views that use your Web API instead of the TMDB API. Describe any other updates to the React app from Assignment One.
+Frontend Fetching Data from Backend API:
+1.MongoDB Collection: Reviews
+2.MongoDB Collection: User Collections
+
+Protected Features:
+1.Login information is stored as a JWT in the browser and sent as an Authorization header with every request to the backend.
+
 
 ## Independent learning (if relevant)
 
-Briefly explain any non-standard features developed for the app.   
+This project also implements the following non-standard features:
+1.Comment System: Supports user comments, deletion, and management functionality.
+2.User Favorites Feature: A MongoDB collection was created to store and manage users' favorite movies.
+3.JWT Authentication: Added user authentication to protect certain routes.

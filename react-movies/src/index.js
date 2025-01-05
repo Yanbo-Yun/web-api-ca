@@ -15,6 +15,7 @@ import NowPlayingPage from "./pages/nowPlayingPage";
 import PopularMoviesPage from "./pages/popularMoviesPage";
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 
 
@@ -35,21 +36,81 @@ const App = () => {
       <BrowserRouter>
         <SiteHeader />
         <MoviesContextProvider>
-          <Routes>
-            <Route path="/movies/favorites" element={<FavoriteMoviesPage />} />
-            <Route path="/reviews/:id" element={ <MovieReviewPage /> } />
-            <Route path="/movies/:id" element={<MoviePage />} />
-            <Route path="/" element={<HomePage />} />
-            <Route path="*" element={ <Navigate to="/" /> } />
-            <Route path="/reviews/form" element={ <AddMovieReviewPage /> } />
-            <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
-            <Route path="/movies/now-playing" element={<NowPlayingPage />} />
-            <Route path="/movies/popular" element={<PopularMoviesPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            
-            
-          </Routes>
+        <Routes>
+  {/* 公共路由 */}
+  <Route path="/register" element={<RegisterPage />} />
+  <Route path="/login" element={<LoginPage />} />
+
+  {/* 受保护的路由 */}
+  <Route
+    path="/"
+    element={
+      <ProtectedRoute>
+        <HomePage />
+      </ProtectedRoute>
+    }
+  />
+  <Route
+    path="/movies/favorites"
+    element={
+      <ProtectedRoute>
+        <FavoriteMoviesPage />
+      </ProtectedRoute>
+    }
+  />
+  <Route
+    path="/reviews/:id"
+    element={
+      <ProtectedRoute>
+        <MovieReviewPage />
+      </ProtectedRoute>
+    }
+  />
+  <Route
+    path="/movies/:id"
+    element={
+      <ProtectedRoute>
+        <MoviePage />
+      </ProtectedRoute>
+    }
+  />
+  <Route
+    path="/reviews/form"
+    element={
+      <ProtectedRoute>
+        <AddMovieReviewPage />
+      </ProtectedRoute>
+    }
+  />
+  <Route
+    path="/movies/upcoming"
+    element={
+      <ProtectedRoute>
+        <UpcomingMoviesPage />
+      </ProtectedRoute>
+    }
+  />
+  <Route
+    path="/movies/now-playing"
+    element={
+      <ProtectedRoute>
+        <NowPlayingPage />
+      </ProtectedRoute>
+    }
+  />
+  <Route
+    path="/movies/popular"
+    element={
+      <ProtectedRoute>
+        <PopularMoviesPage />
+      </ProtectedRoute>
+    }
+  />
+
+  {/* 404 页面 */}
+  <Route path="*" element={<Navigate to="/" />} />
+</Routes>
+
         </MoviesContextProvider>
       </BrowserRouter>
       <ReactQueryDevtools initialIsOpen={false} />
